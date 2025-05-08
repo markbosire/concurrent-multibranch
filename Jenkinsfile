@@ -1,10 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage('Sleep') {
+        stage("Build") {
             steps {
-                sh 'sleep 10'
-                echo "Completed sleep stage in ${env.BRANCH_NAME}"
+                lock("lock1") {
+                    echo 'Locked printer resource'
+                    sh 'sleep 10'
+                    echo "Build completed in ${env.BRANCH_NAME}"
+                }
             }
         }
     }
